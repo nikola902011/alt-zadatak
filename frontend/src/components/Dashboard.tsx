@@ -1,4 +1,6 @@
 import React from 'react';
+import Header from './Header';
+import ProductList from './ProductList';
 import './Dashboard.css';
 
 interface User {
@@ -11,17 +13,14 @@ interface DashboardProps {
   onLogout: () => void;
 }
 
-const Dashboard: React.FC<DashboardProps> = ({ user, onLogout }) => {
+const Dashboard = ({ user, onLogout }: DashboardProps) => {
   return (
-    <div className="dashboard">
-      <header className="dashboard-header">
-        <h1>Welcome, {user.email}!</h1>
-        <button onClick={onLogout} className="logout-button">
-          Logout
-        </button>
-      </header>
-      <main className="dashboard-content">
-        <p>You are successfully logged in with JWT authentication.</p>
+    <div className="dashboardContainer">
+        
+      <Header user={user} onLogout={onLogout} />
+      
+      <main className="dashboardContent">
+        <ProductList />
       </main>
     </div>
   );

@@ -1,0 +1,26 @@
+.productList {
+  display: grid;
+  /* Podrazumevano stanje (desktop): 2 kolone */
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 700px; 
+  margin: 0 auto;
+}
+
+.loadingMessage,
+.errorMessage {
+  text-align: center;
+  font-size: 1.2rem;
+  padding: 4rem;
+  color: #555;
+}
+
+/* Media Query za mobilne telefone */
+@media (max-width: 600px) {
+  .productList {
+    /* Na manjim ekranima: 1 kolona */
+    grid-template-columns: 1fr;
+    padding: 1rem; /* Malo manji padding na mobilnom */
+  }
+} 

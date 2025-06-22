@@ -1,4 +1,7 @@
-const API_URL = 'http://localhost:5189/api';
+const API_BASE_URL = 'http://localhost:5189'; // Osnovni URL bez /api
+const API_URL = `${API_BASE_URL}/api`; // URL za API pozive
+
+export { API_BASE_URL }; // Exportujemo osnovni URL
 
 export interface User {
   id: number;
@@ -107,4 +110,26 @@ async function forgotPassword(email: string) {
   }
 }
 
-export { login, getCurrentUser, logout, forgotPassword }; 
+export interface Product {
+  id: number;
+  name: string;
+  price: number;
+  category: string;
+  imagePath: string;
+}
+
+async function getProducts(): Promise<Product[]> {
+  try {
+    const response = await fetch(`${API_URL}/products`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch products');
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Get products error:', error);
+    throw error;
+  }
+}
+
+export { login, getCurrentUser, logout, forgotPassword, getProducts }; 

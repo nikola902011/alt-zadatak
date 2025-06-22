@@ -59,6 +59,34 @@ namespace Api.Data
             context.SaveChanges();
             
             Console.WriteLine($"Successfully added {users.Length} users to database.");
+
+            // Clear existing products if force seed is enabled
+            if (forceSeed && context.Products.Any())
+            {
+                Console.WriteLine("Clearing existing products for force seed...");
+                context.Products.RemoveRange(context.Products);
+                context.SaveChanges();
+            }
+
+            // Seed Products
+            if (!context.Products.Any())
+            {
+                Console.WriteLine("Adding seed products to database...");
+                var products = new Product[]
+                {
+                    new Product { Name = "iPad Pro", Price = 799.00m, Category = "Electronics", ImagePath = "/images/products/iPadPro.png" },
+                    new Product { Name = "AirPods Pro", Price = 249.00m, Category = "Electronics", ImagePath = "/images/products/AirPods.jpg" },
+                    new Product { Name = "Playstation 5", Price = 499.00m, Category = "Electronics", ImagePath = "/images/products/Playstation.png" },
+                    new Product { Name = "Apple Watch", Price = 249.00m, Category = "Electronics", ImagePath = "/images/products/watch.png" },
+                    new Product { Name = "iPhone 15 Pro", Price = 999.00m, Category = "Electronics", ImagePath = "/images/products/Iphone.png" },
+                    new Product { Name = "Canon EOS R5", Price = 3899.00m, Category = "Electronics", ImagePath = "/images/products/Cannon.jpg" },
+                    new Product { Name = "MacBook Pro", Price = 1299.00m, Category = "Electronics", ImagePath = "/images/products/MacBook.jpg" },
+                };
+
+                context.Products.AddRange(products);
+                context.SaveChanges();
+                Console.WriteLine($"Successfully added {products.Length} products to database.");
+            }
         }
     }
 } 
