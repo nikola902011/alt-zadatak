@@ -1,0 +1,39 @@
+.adminHomePage {
+    width: 100%;
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+  
+  .statsRow, .actionsRow {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .actionsSection {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .actionsHeader {
+    font-size: 24px;
+    font-weight: 700;
+    color: #454B60;
+ 
+  }
+  
+  /* Media Query za responzivnost */
+  @media (max-width: 768px) {
+    .statsRow, .actionsRow {
+      flex-direction: column;
+      align-items: center;
+    }
+  } 

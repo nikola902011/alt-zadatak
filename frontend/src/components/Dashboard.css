@@ -27,3 +27,14 @@
 .dashboardContent {
   position: relative;
 }
+
+@media (max-width: 768px) {
+  .dashboardContainer {
+    background-size: 
+      150% auto,
+      70% auto;
+    background-position: 
+      50% 0,
+      -30% 100%;
+  }
+}

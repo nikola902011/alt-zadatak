@@ -17,7 +17,7 @@
     519px 383px;
   background-position: 
     100% 0%,
-    -7% 100%;
+    -10% 100%;
   background-repeat: no-repeat; 
 }
 
@@ -198,4 +198,21 @@
 
 .closeButton:hover {
   background: #5a6268;
+}
+
+@media (max-width: 768px) {
+  .loginHolder {
+    padding: 0 1rem;
+    width: 100%;
+  }
+
+  .loginTitle {
+    font-size: 48px;
+    margin-bottom: 2rem;
+  }
+
+  .loginH2 {
+    font-size: 18px;
+    margin-bottom: 3rem;
+  }
 }

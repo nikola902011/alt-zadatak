@@ -40,7 +40,7 @@ namespace Api.Data
                     FirstName = "Admin",
                     LastName = "User",
                     CreatedAt = DateTime.UtcNow,
-                    ProfileImagePath = ""
+                    ProfileImagePath = "/images/users/user1.jpg"
                 },
                 new User
                 {
@@ -51,7 +51,7 @@ namespace Api.Data
                     FirstName = "John",
                     LastName = "Doe",
                     CreatedAt = DateTime.UtcNow,
-                    ProfileImagePath = ""
+                    ProfileImagePath = "/images/users/user1.jpg"
                 }
             };
 

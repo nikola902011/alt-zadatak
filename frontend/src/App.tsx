@@ -6,6 +6,8 @@ import Dashboard from './components/Dashboard'
 interface User {
   email: string
   token: string
+  role: string
+  profileImagePath?: string
 }
 
 function App() {
@@ -13,17 +15,26 @@ function App() {
 
   useEffect(() => {
     const token = localStorage.getItem('token')
-    if (token) {
-      setUser({ email: 'user@example.com', token })
+    const role = localStorage.getItem('role')
+    const profileImagePath = localStorage.getItem('profileImagePath');
+    if (token && role) {
+      setUser({ email: 'user@example.com', token, role, profileImagePath: profileImagePath || undefined })
     }
   }, [])
 
   const handleLogin = (userData: User) => {
+    localStorage.setItem('token', userData.token);
+    localStorage.setItem('role', userData.role);
+    if (userData.profileImagePath) {
+      localStorage.setItem('profileImagePath', userData.profileImagePath);
+    }
     setUser(userData)
   }
 
   const handleLogout = () => {
     localStorage.removeItem('token')
+    localStorage.removeItem('role')
+    localStorage.removeItem('profileImagePath');
     setUser(null)
   }
 

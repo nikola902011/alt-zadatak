@@ -3,7 +3,7 @@ import { login, forgotPassword } from '../services/api';
 import './Login.css';
 
 interface LoginProps {
-  onLogin: (user: { email: string; token: string }) => void;
+  onLogin: (user: { email: string; token: string; role: string; profileImagePath?: string }) => void;
 }
 
 const Login = ({ onLogin }: LoginProps) => {
@@ -23,8 +23,12 @@ const Login = ({ onLogin }: LoginProps) => {
 
     try {
       const response = await login(email, password);
-      localStorage.setItem('token', response.token);
-      onLogin({ email: response.email, token: response.token });
+      onLogin({ 
+        email: response.email, 
+        token: response.token, 
+        role: response.role,
+        profileImagePath: response.profileImagePath
+      });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed');
     } finally {

@@ -20,6 +20,13 @@ export interface LoginRequest {
 export interface LoginResponse {
   token: string;
   email: string;
+  role: string;
+  profileImagePath?: string;
+}
+
+export interface DashboardStats {
+  totalProducts: number;
+  activeUsers: number;
 }
 
 export interface ApiError {
@@ -36,7 +43,7 @@ export interface ForgotPasswordResponse {
   note: string;
 }
 
-async function login(email: string, password: string) {
+async function login(email: string, password: string): Promise<LoginResponse> {
   try {
     const response = await fetch(`${API_URL}/auth/login`, {
       method: 'POST',
@@ -58,7 +65,7 @@ async function login(email: string, password: string) {
   }
 }
 
-async function getCurrentUser() {
+async function getCurrentUser(): Promise<User | null> {
   try {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -85,10 +92,12 @@ async function getCurrentUser() {
 
 function logout() {
   localStorage.removeItem('token');
+  localStorage.removeItem('role');
+  localStorage.removeItem('profileImagePath');
   localStorage.removeItem('user');
 }
 
-async function forgotPassword(email: string) {
+async function forgotPassword(email: string): Promise<ForgotPasswordResponse> {
   try {
     const response = await fetch(`${API_URL}/auth/forgot-password`, {
       method: 'POST',
@@ -130,6 +139,26 @@ async function getProducts(): Promise<Product[]> {
     console.error('Get products error:', error);
     throw error;
   }
+}
+
+export async function getDashboardStats(): Promise<DashboardStats> {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    throw new Error('No token found');
+  }
+
+  const response = await fetch(`${API_URL}/dashboard/stats`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({ message: 'Failed to fetch dashboard stats' }));
+    throw new Error(errorData.message || 'Failed to fetch dashboard stats');
+  }
+
+  return response.json();
 }
 
 export { login, getCurrentUser, logout, forgotPassword, getProducts }; 

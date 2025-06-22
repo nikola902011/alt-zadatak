@@ -24,6 +24,8 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddScoped<Api.Services.AuthService>();
+builder.Services.AddScoped<Api.Services.ProductService>();
+builder.Services.AddScoped<Api.Services.DashboardService>();
 builder.Services.AddScoped<Api.Helpers.JwtHelper>();
 
 builder.Services.AddAuthentication(options =>

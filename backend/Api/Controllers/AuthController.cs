@@ -26,7 +26,12 @@ namespace Api.Controllers
                 return Unauthorized(new { message = "Invalid email or password" });
 
             var token = _jwtHelper.GenerateJwtToken(user);
-            return Ok(new LoginResponseDto { Token = token, Email = user.Email });
+            return Ok(new LoginResponseDto { 
+                Token = token, 
+                Email = user.Email, 
+                Role = user.Role,
+                ProfileImagePath = user.ProfileImagePath 
+            });
         }
 
         [HttpPost("forgot-password")]

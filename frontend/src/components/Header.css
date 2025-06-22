@@ -8,6 +8,7 @@
   width: 100%;
   height: 140px;
   box-sizing: border-box;
+
   
  margin-bottom: 100px;
 }
@@ -29,17 +30,18 @@
 .profileImage {
   width: 96px;
   height: 96px;
+  margin-left: 108px;
   border-radius: 81px;
   border: 2px solid #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: block;
 }
 
-/* Kontejner koji je sivi krug */
+
 .editIconContainer {
   position: absolute;
   top: 65px;
-  left: 53px;
+  left: 170px;
   width: 35px;
   height: 35px;
   background-color: #454B60; 
@@ -49,11 +51,11 @@
   justify-content: center;
 }
 
-/* Sama ikonica unutar kruga */
+
 .editIcon {
-  width: 50%; /* Veličina ikonice u odnosu na krug */
+  width: 50%; 
   height: 50%;
-  filter: brightness(0) invert(1); /* Boji ikonicu u belo */
+  filter: brightness(0) invert(1); 
 }
 
 .mainNav {
@@ -91,13 +93,13 @@
 
 @media (max-width: 600px) {
   .appHeader {
-    flex-direction: column; /* Slaže elemente jedan ispod drugog */
-    gap: 1.5rem; /* Dodaje razmak između elemenata */
+    flex-direction: column; 
+    gap: 1.5rem; 
     padding: 1rem;
   }
 
   .mainNav {
-    order: 2; /* Menja redosled - navigacija ide posle profila */
+    order: 2; 
     width: 100%;
     justify-content: center;
   }

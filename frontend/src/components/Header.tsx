@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import './Header.css';
+import { API_BASE_URL } from '../services/api';
 
 interface User {
   email: string;
-  profileImage?: string; // Dodajemo opciono polje za sliku
+  role: string;
+  profileImagePath?: string;
 }
 
 interface HeaderProps {
@@ -13,7 +15,12 @@ interface HeaderProps {
 
 const Header = ({ user, onLogout }: HeaderProps) => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
-  const profileImage = user.profileImage || '/images/icons/profile.svg';
+  
+  const profileImageSrc = user.profileImagePath 
+    ? `${API_BASE_URL}${user.profileImagePath}` 
+    : '/images/icons/profile.svg';
+
+  const isAdmin = user.role === 'Admin';
 
   return (
     <header className="appHeader">
@@ -23,7 +30,7 @@ const Header = ({ user, onLogout }: HeaderProps) => {
           onClick={() => setDropdownOpen(!isDropdownOpen)} 
         >
           <img 
-            src={profileImage} 
+            src={profileImageSrc} 
             alt="Profile" 
             className="profileImage"
           />
@@ -35,15 +42,12 @@ const Header = ({ user, onLogout }: HeaderProps) => {
             />
           </div>
         </div>
-        {isDropdownOpen && (
-          <div className="profileDropdown">
-            {/* TODO: Dodati sadržaj dropdowna */}
-          </div>
-        )}
+       
       </div>
       <nav className="mainNav">
         <a href="#home">Home</a>
         <a href="#products">Products</a>
+        {isAdmin && <a href="#users">Users</a>}
         <a href="#profile">Profile</a>
       </nav>
       
