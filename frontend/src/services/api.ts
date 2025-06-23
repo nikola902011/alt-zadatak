@@ -119,7 +119,7 @@ async function forgotPassword(email: string): Promise<ForgotPasswordResponse> {
   }
 }
 
-export interface Product {
+interface Product {
   id: number;
   name: string;
   price: number;
@@ -141,7 +141,7 @@ async function getProducts(): Promise<Product[]> {
   }
 }
 
-export async function getDashboardStats(): Promise<DashboardStats> {
+async function getDashboardStats(): Promise<DashboardStats> {
   const token = localStorage.getItem('token');
   if (!token) {
     throw new Error('No token found');
@@ -161,4 +161,76 @@ export async function getDashboardStats(): Promise<DashboardStats> {
   return response.json();
 }
 
-export { login, getCurrentUser, logout, forgotPassword, getProducts }; 
+// Dodavanje novog proizvoda
+async function addProduct(product: { name: string; price: number; category: string; imagePath?: string }): Promise<Product> {
+  const token = localStorage.getItem('token');
+  const response = await fetch(`${API_URL}/products`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+    },
+    body: JSON.stringify(product)
+  });
+  if (!response.ok) {
+    throw new Error('Failed to add product');
+  }
+  return response.json();
+}
+
+// Izmena postojećeg proizvoda
+async function updateProduct(id: number, product: { id: number; name: string; price: number; category: string; imagePath?: string }): Promise<Product | void> {
+  const token = localStorage.getItem('token');
+  const response = await fetch(`${API_URL}/products/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+    },
+    body: JSON.stringify(product)
+  });
+  if (!response.ok) {
+    throw new Error('Failed to update product');
+  }
+  if (response.status === 204) {
+    return;
+  }
+  return response.json();
+}
+
+// Brisanje proizvoda
+async function deleteProduct(id: number): Promise<void> {
+  const token = localStorage.getItem('token');
+  const response = await fetch(`${API_URL}/products/${id}`, {
+    method: 'DELETE',
+    headers: {
+      ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+    }
+  });
+  if (!response.ok) {
+    throw new Error('Failed to delete product');
+  }
+}
+
+async function uploadImage(file: File): Promise<string> {
+  const token = localStorage.getItem('token');
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const response = await fetch(`${API_URL}/upload`, {
+    method: 'POST',
+    headers: {
+      ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+    },
+    body: formData
+  });
+  if (!response.ok) {
+    throw new Error('Failed to upload image');
+  }
+  const data = await response.json();
+  return data.imagePath;
+} 
+
+export type { Product };
+export { login, getCurrentUser, logout, forgotPassword, getProducts, getDashboardStats, addProduct, updateProduct, deleteProduct, uploadImage };
+

@@ -1,6 +1,6 @@
 .adminHomePage {
     width: 100%;
-    max-width: 800px;
+    /*max-width: 800px;*/
     margin: 2rem auto;
     padding: 0 1rem;
     display: flex;
@@ -11,9 +11,8 @@
   .statsRow, .actionsRow {
     display: flex;
     justify-content: center;
-    gap: 2rem;
+    gap: 51px;
     flex-wrap: wrap;
-    max-width: 600px;
     margin: 0 auto;
   }
   
@@ -24,13 +23,13 @@
   }
   
   .actionsHeader {
+    margin-left: 20px;
     font-size: 24px;
     font-weight: 700;
     color: #454B60;
  
   }
   
-  /* Media Query za responzivnost */
   @media (max-width: 768px) {
     .statsRow, .actionsRow {
       flex-direction: column;

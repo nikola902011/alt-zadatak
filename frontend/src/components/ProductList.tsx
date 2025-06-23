@@ -34,7 +34,7 @@ const ProductList = () => {
   }
 
   return (
-    <div className="productList">
+    <div className="productListCustomer">
       {products.map(product => (
         <ProductCard key={product.id} product={product} />
       ))}

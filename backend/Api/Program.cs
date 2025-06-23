@@ -27,6 +27,7 @@ builder.Services.AddScoped<Api.Services.AuthService>();
 builder.Services.AddScoped<Api.Services.ProductService>();
 builder.Services.AddScoped<Api.Services.DashboardService>();
 builder.Services.AddScoped<Api.Helpers.JwtHelper>();
+builder.Services.AddScoped<Api.Services.UploadService>();
 
 builder.Services.AddAuthentication(options =>
 {

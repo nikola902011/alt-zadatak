@@ -35,6 +35,7 @@ function App() {
     localStorage.removeItem('token')
     localStorage.removeItem('role')
     localStorage.removeItem('profileImagePath');
+    localStorage.removeItem('activeTab');
     setUser(null)
   }
 

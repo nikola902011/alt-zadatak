@@ -11,10 +11,11 @@ interface User {
 interface HeaderProps {
   user: User;
   onLogout: () => void;
+  activeTab: string;
+  onTabChange: (tab: string) => void;
 }
 
-const Header = ({ user, onLogout }: HeaderProps) => {
-  const [isDropdownOpen, setDropdownOpen] = useState(false);
+const Header = ({ user, onLogout, activeTab, onTabChange }: HeaderProps) => {
   
   const profileImageSrc = user.profileImagePath 
     ? `${API_BASE_URL}${user.profileImagePath}` 
@@ -22,12 +23,16 @@ const Header = ({ user, onLogout }: HeaderProps) => {
 
   const isAdmin = user.role === 'Admin';
 
+  const handleNavClick = (e: React.MouseEvent, tab: string) => {
+    e.preventDefault();
+    onTabChange(tab);
+  };
+
   return (
     <header className="appHeader">
       <div className="profileSection">
         <div 
           className="profileImageContainer"
-          onClick={() => setDropdownOpen(!isDropdownOpen)} 
         >
           <img 
             src={profileImageSrc} 
@@ -45,10 +50,12 @@ const Header = ({ user, onLogout }: HeaderProps) => {
        
       </div>
       <nav className="mainNav">
-        <a href="#home">Home</a>
-        <a href="#products">Products</a>
-        {isAdmin && <a href="#users">Users</a>}
-        <a href="#profile">Profile</a>
+        <div className="headerNavItemsHolder">
+          <div className="headerNavItem" onClick={(e) => handleNavClick(e, 'home')}>Home</div>
+          <div className="headerNavItem" onClick={(e) => handleNavClick(e, 'products')}>Products</div>
+          {isAdmin && <div className="headerNavItem" onClick={(e) => handleNavClick(e, 'users')}>Users</div>}
+          <div className="headerNavItem" onClick={(e) => handleNavClick(e, 'profile')}>Profile</div>
+        </div>
       </nav>
       
     </header>

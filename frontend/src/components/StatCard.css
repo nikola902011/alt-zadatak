@@ -1,19 +1,16 @@
 .statCard {
-    background-color: #dfdfdf;
-    border-radius: 12px;
-    padding: 1.5rem 2rem;
-    text-align: left;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    flex: 1;
-    min-width: 220px;
-    height: 200px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    font-family: 'Lato', sans-serif;
-    box-sizing: border-box;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: flex-start;
+  
+   width: 355px;
+   padding: 25px 0px 28px 39px;
+  
+   font-family: 'Lato', sans-serif;
+   font-weight: 700;
+   background-color: #DFDFDF;
+   border-radius: 20px;
   }
   
   .statCard.actionCard {
@@ -27,19 +24,17 @@
   
   .statValue {
     font-size: 128px;
-    font-weight: 700;
     line-height: 1;
-    margin-bottom: 0.25rem;
+    margin-bottom: 13px;
   }
   
   .actionIcon {
-    width: 40px;
-    height: 40px;
-    margin-bottom: 0.75rem;
+    width: 89px;
+    height: 89px;
+    padding: 20px 0px 33px 0px;
   }
   
   .cardTitle {
-    font-size: 1rem;
+    font-size: 32px;
     color: #454B60;
-    font-weight: 600;
   } 

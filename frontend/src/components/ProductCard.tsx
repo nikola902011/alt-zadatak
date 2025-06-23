@@ -16,7 +16,7 @@ interface ProductCardProps {
 const ProductCard = ({ product }: ProductCardProps) => {
     // Gradimo punu URL putanju do slike na backend-u
     const imageUrl = product.imagePath 
-        ? `${API_BASE_URL}${product.imagePath}` 
+        ? `${API_BASE_URL}/${product.imagePath}` 
         : 'https://via.placeholder.com/300';
 
     return (
@@ -24,7 +24,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
             <div className="productImageContainer">
                 <img src={imageUrl} alt={product.name} className="productImage" />
             </div>
-            <div className="productInfo">
+            <div className="productInfoCustomer">
                 {product.name} <br></br>
                 ${product.price.toFixed(2)}
             </div>
