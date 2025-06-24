@@ -121,11 +121,11 @@ const AdminProductPage = () => {
   };
 
   if (loading) {
-    return <div className="loadingMessage">Loading products...</div>;
+    return <div>Loading products...</div>;
   }
 
   if (error) {
-    return <div className="errorMessage">{error}</div>;
+    return <div>{error}</div>;
   }
 
   return (

@@ -17,12 +17,12 @@ namespace Api.Services
         public async Task<DashboardStatsDto> GetDashboardStatsAsync()
         {
             var totalProducts = await _context.Products.CountAsync();
-            var totalUsers = await _context.Users.CountAsync();
+            var activeUsers = await _context.Users.Where(u => u.Role == "Customer").CountAsync();
 
             return new DashboardStatsDto
             {
                 TotalProducts = totalProducts,
-                ActiveUsers = totalUsers
+                ActiveUsers = activeUsers
             };
         }
     }

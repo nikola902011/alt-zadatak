@@ -3,6 +3,7 @@ import Header from './Header';
 import ProductList from './ProductList';
 import AdminHomePage from './AdminHomePage';
 import AdminProductPage from './AdminProductPage';
+import AdminUsersPage from './AdminUsersPage';
 import './Dashboard.css';
 
 interface User {
@@ -43,7 +44,7 @@ const Dashboard = ({ user, onLogout }: DashboardProps) => {
         case 'products':
           return <AdminProductPage />;
         case 'users':
-          return <div>Admin Users Page - Coming Soon!</div>;
+          return <AdminUsersPage />;
         case 'profile':
           return <div>Admin Profile Page - Coming Soon!</div>;
         default:

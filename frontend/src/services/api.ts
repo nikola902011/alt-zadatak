@@ -43,6 +43,15 @@ export interface ForgotPasswordResponse {
   note: string;
 }
 
+export interface UserDto {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  createdAt: string;
+  profileImagePath?: string;
+}
+
 async function login(email: string, password: string): Promise<LoginResponse> {
   try {
     const response = await fetch(`${API_URL}/auth/login`, {
@@ -229,8 +238,48 @@ async function uploadImage(file: File): Promise<string> {
   }
   const data = await response.json();
   return data.imagePath;
-} 
+}
+
+async function getCustomerUsers(): Promise<UserDto[]> {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    throw new Error('No token found');
+  }
+
+  const response = await fetch(`${API_URL}/users/customers`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({ message: 'Failed to fetch users' }));
+    throw new Error(errorData.message || 'Failed to fetch users');
+  }
+
+  return response.json();
+}
+
+async function deleteUsers(userIds: number[]): Promise<void> {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    throw new Error('No token found');
+  }
+
+  const response = await fetch(`${API_URL}/users/delete-users`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify({ userIds })
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to delete users');
+  }
+}
 
 export type { Product };
-export { login, getCurrentUser, logout, forgotPassword, getProducts, getDashboardStats, addProduct, updateProduct, deleteProduct, uploadImage };
+export { login, getCurrentUser, logout, forgotPassword, getProducts, getDashboardStats, addProduct, updateProduct, deleteProduct, uploadImage, getCustomerUsers, deleteUsers };
 

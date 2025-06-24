@@ -52,7 +52,40 @@ namespace Api.Data
                     LastName = "Doe",
                     CreatedAt = DateTime.UtcNow,
                     ProfileImagePath = "/images/users/user1.jpg"
-                }
+                },
+                new User
+                {
+                    Username = "customer",
+                    Email = "user2@example.com",
+                    PasswordHash = PasswordHelper.HashPassword("password"),
+                    Role = "Customer",
+                    FirstName = "Mark",
+                    LastName = "Jackson",
+                    CreatedAt = DateTime.UtcNow,
+                    ProfileImagePath = "/images/users/user1.jpg"
+                },
+                new User
+                {
+                    Username = "Bobby11",
+                    Email = "user3@example.com",
+                    PasswordHash = PasswordHelper.HashPassword("password"),
+                    Role = "Customer",
+                    FirstName = "Bobby",
+                    LastName = "Brown",
+                    CreatedAt = DateTime.UtcNow,
+                    ProfileImagePath = "/images/users/user2.jpg"
+                },
+                new User
+                {
+                    Username = "Seb83",
+                    Email = "user4@example.com",
+                    PasswordHash = PasswordHelper.HashPassword("password"),
+                    Role = "Customer",
+                    FirstName = "Sebastian",
+                    LastName = "Turlich",
+                    CreatedAt = DateTime.UtcNow,
+                    ProfileImagePath = "/images/users/user1.jpg"
+                },
             };
 
             context.Users.AddRange(users);
