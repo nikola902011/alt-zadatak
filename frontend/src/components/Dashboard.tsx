@@ -4,6 +4,7 @@ import ProductList from './ProductList';
 import AdminHomePage from './AdminHomePage';
 import AdminProductPage from './AdminProductPage';
 import AdminUsersPage from './AdminUsersPage';
+import AdminAnalyticsPage from './AdminAnalyticsPage';
 import './Dashboard.css';
 
 interface User {
@@ -23,6 +24,7 @@ const Dashboard = ({ user, onLogout }: DashboardProps) => {
     // Učitaj sačuvanu stranicu iz localStorage ili koristi 'home' kao default
     return localStorage.getItem('activeTab') || 'home';
   });
+  const [openAddProductModal, setOpenAddProductModal] = useState(false);
   
   const isAdmin = user.role === 'Admin';
 
@@ -31,8 +33,11 @@ const Dashboard = ({ user, onLogout }: DashboardProps) => {
     localStorage.setItem('activeTab', activeTab);
   }, [activeTab]);
 
-  const handleTabChange = (tab: string) => {
+  const handleTabChange = (tab: string, options?: { openAddModal?: boolean }) => {
     setActiveTab(tab);
+    if (tab === 'products' && options?.openAddModal) {
+      setOpenAddProductModal(true);
+    }
   };
 
   const renderContent = () => {
@@ -40,15 +45,17 @@ const Dashboard = ({ user, onLogout }: DashboardProps) => {
     if (isAdmin) {
       switch (activeTab) {
         case 'home':
-          return <AdminHomePage />;
+          return <AdminHomePage onTabChange={handleTabChange} />;
         case 'products':
           return <AdminProductPage />;
         case 'users':
           return <AdminUsersPage />;
+        case 'analytics':
+          return <AdminAnalyticsPage />;
         case 'profile':
           return <div>Admin Profile Page - Coming Soon!</div>;
         default:
-          return <AdminHomePage />;
+          return <AdminHomePage onTabChange={handleTabChange} />;
       }
     }
 

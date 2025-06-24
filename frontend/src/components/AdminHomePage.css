@@ -1,11 +1,10 @@
 .adminHomePage {
     width: 100%;
     /*max-width: 800px;*/
-    margin: 2rem auto;
-    padding: 0 1rem;
+    margin: auto;
     display: flex;
     flex-direction: column;
-    gap: 2.5rem;
+    gap: 50px;
   }
   
   .statsRow, .actionsRow {
