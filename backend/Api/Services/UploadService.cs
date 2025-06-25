@@ -32,5 +32,23 @@ namespace Api.Services
             // Relativna putanja za bazu
             return Path.Combine("images", "products", fileName).Replace("\\", "/");
         }
+
+        public async Task<string> SaveUserImageAsync(IFormFile file)
+        {
+            var uploadsFolder = Path.Combine(_env.WebRootPath, "images", "users");
+            if (!Directory.Exists(uploadsFolder))
+                Directory.CreateDirectory(uploadsFolder);
+
+            var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+            var filePath = Path.Combine(uploadsFolder, fileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            // Relativna putanja za bazu
+            return Path.Combine("images", "users", fileName).Replace("\\", "/");
+        }
     }
 } 

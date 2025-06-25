@@ -1,0 +1,383 @@
+.sidebarProfileImgHolder {
+  position: relative;
+  width: 90px;
+  height: 90px;
+}
+.sidebarProfileImg {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #fff;
+  box-shadow: 0 2px 8px #0002;
+}
+.sidebarEditIcon {
+  position: absolute;
+  right: 0; bottom: 0;
+  background: #454B60;
+  border-radius: 50%;
+  width: 32px; height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 2px solid #fff;
+}
+.sidebarEditIcon img {
+  width: 18px;
+  height: 18px;
+  filter: brightness(0) invert(1);
+}
+
+.sidebarMenu {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.sidebarMenuTitle {
+  font-weight: 600;
+  color: #454B60;
+  font-size: 17px;
+  margin-bottom: 8px;
+}
+.sidebarLogoutBtn {
+  background: none;
+  border: none;
+  color: #222;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s;
+}
+.sidebarLogoutBtn:hover {
+  color: #fa71cd;
+}
+.sidebarLogoutIcon {
+  font-size: 18px;
+}
+
+.editProfileMain {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin-top: -100px;
+}
+
+.editSettingsBar{
+  position: absolute;
+  top: -5px;
+  left: -485px;
+
+  padding: 50px 87px 50px 30px;
+  border-radius: 40px;
+  box-shadow: 0 2px 12px #0001;
+  background-color: #fff;
+}
+
+.logoutText{
+  padding-left: 30px;
+  font-size: 20px;
+  font-weight: 700;
+  font-family: 'Dubai', sans-serif;
+  color: #454B60;
+
+  background-image: url('/images/icons/logout.svg');
+  background-size: 23px;
+  background-position: left center;
+  background-repeat: no-repeat;
+
+  cursor: pointer;
+}
+
+.editSettingsBarH1{
+  padding-bottom: 30px;
+  font-size: 20px;
+  font-weight: 700;
+  font-family: 'Dubai', sans-serif;
+  color: #454B60;
+}
+
+.editProfileTitleHolder{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 250px;
+
+  width: 100%;
+  height: 100%;
+}
+
+.borderBox{
+ margin-bottom: 70px;
+}
+
+.editProfileTitleGradient {
+  font-size: 36px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #EECE13 0%, #B210FF 100%);
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 36px;
+  text-align: center;
+}
+.editProfileFormBox {
+  width: 100%;
+  background: none;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.editProfileRow {
+  display: flex;
+  gap: 53px;
+}
+.editProfileField {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.editProfileField label {
+  margin-bottom: 8px;
+
+  font-family: 'Roboto', sans-serif;
+  font-size: 26px;
+  color: #1C1C1C;
+  font-weight: 600;
+}
+
+.editProfileField input {
+  padding: 16px 22px;
+
+  font-size: 16px;
+  color: #222;
+
+  border-radius: 30px;
+  border: none;
+  background: #fff;
+  box-shadow: 0 2px 12px #0001;
+
+  outline: none;
+  transition: box-shadow 0.2s, border 0.2s;
+}
+
+.editProfileField input:disabled {
+  color: #858585;
+}
+.editProfileBtnRow {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-top: 18px;
+}
+.editProfileCancelBtn {
+  padding: 12px 38px; 
+  background: #fff;
+
+  color: #fa71cd;
+  font-size: 18px;
+  font-weight: 600;
+
+  background: linear-gradient(white, white) padding-box,
+  linear-gradient(135deg, #EECE13, #B210FF) border-box;
+  border: 2px solid transparent;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.editProfileCancelBtn:hover {
+  background: #f9d42311;
+  color: #c471f5;
+}
+.editProfileSaveBtn {
+  padding: 12px 38px;
+  border-radius: 30px;
+  border: none;
+  background: linear-gradient(135deg, #EECE13 0%, #B210FF 100%);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 12px #fa71cd22;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.editProfileSaveBtn:hover {
+  background: linear-gradient(90deg, #f9d423 0%, #fa71cd 50%, #c471f5 100%);
+  box-shadow: 0 4px 18px #fa71cd33;
+}
+
+.editProfileImageUpdateContainer{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+
+  width: 800px;
+  padding: 159px 0px 229px 0px;
+  margin-bottom: 70px;
+  
+  border-radius: 40px;
+  background-color: #fff;
+  box-shadow: 0 2px 12px #0001;
+}
+
+.cameraOptionHolder{
+  margin-bottom: 30px;
+  cursor: pointer;
+}
+
+.cameraOptionImage{
+  height: 99px;
+  width: 99px;
+  margin-bottom: 10px;
+
+  background-image: url('/images/icons/circle-user.svg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.cameraOptionText{
+  width: 99px;
+  text-align: center;
+  font-size: 18px;
+  color: #454B60;
+}
+
+.profileImageUpdateBtnRow{
+  gap: 40px;
+  margin-top: 10px;
+
+  .actionButton{
+    width: 180px;
+    font-size: 28px;
+    font-weight: 600;
+  }
+}
+
+@media (max-width: 1600px) {
+  .editSettingsBar{
+    display: flex;
+    position: relative;
+    left: 0px;
+  }
+}
+
+@media (max-width: 900px) {
+  .editProfileWrapper {
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 0 0 0;
+  }
+  .editProfileSidebar {
+    margin-right: 0;
+    margin-bottom: 32px;
+    width: 100%;
+    min-width: unset;
+    max-width: 350px;
+  }
+  .editProfileMain {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+@media (max-width: 600px) {
+  .editProfileWrapper {
+    padding: 20px 0 0 0;
+  }
+  .editProfileSidebar {
+    padding: 18px 8px;
+    max-width: 100%;
+  }
+  .editProfileMain {
+    margin-top: 0;
+    padding: 0 6px;
+  }
+  .editProfileTitleGradient {
+    font-size: 26px;
+  }
+  .editProfileRow {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .editProfileBtnRow {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .editProfileCancelBtn, .editProfileSaveBtn {
+    width: 100%;
+    font-size: 16px;
+  }
+}
+
+/* Camera Modal Styles */
+.cameraModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.cameraModalContent {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 600px;
+  width: 90%;
+}
+
+.cameraModalContent h3 {
+  margin-bottom: 20px;
+  color: #454B60;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.cameraButtons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.cameraButtons .actionButton {
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cameraButtons .editButton {
+  background: linear-gradient(135deg, #EECE13 0%, #B210FF 100%);
+  color: white;
+}
+
+.cameraButtons .deleteButton {
+  background: #f44336;
+  color: white;
+}
+
+.cameraButtons .actionButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+} 

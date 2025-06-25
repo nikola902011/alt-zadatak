@@ -1,21 +1,35 @@
 .admiChartPage {
   display: flex;
   flex-direction: row;
-  gap: 40px;
+  gap: 284px;
   align-items: flex-start;
   justify-content: center;
 }
 
 .dashboardLeft {
-  flex: 2;
-  min-width: 400px;
-  margin-right: 284px;
+ 
+  /*margin-right: 284px;*/
 }
 
 .dashboardRight {
-  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 100px;
   min-width: 220px;
 } 
+
+@media (max-width: 1250px) {
+  .admiChartPage {
+    gap: 100px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .admiChartPage {
+    flex-direction: column;
+  }
+
+  .categoryItem{
+    width: 100%;
+  }
+}

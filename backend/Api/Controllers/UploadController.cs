@@ -28,5 +28,17 @@ namespace Api.Controllers
             var relativePath = await _uploadService.SaveImageAsync(file);
             return Ok(new { imagePath = relativePath });
         }
+
+        [HttpPost("user")]
+        [Authorize]
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public async Task<IActionResult> UploadUserImage([FromForm] IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("No file uploaded.");
+
+            var relativePath = await _uploadService.SaveUserImageAsync(file);
+            return Ok(new { imagePath = "/" + relativePath });
+        }
     }
 } 

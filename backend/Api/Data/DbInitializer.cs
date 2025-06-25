@@ -8,17 +8,14 @@ namespace Api.Data
     {
         public static void Initialize(AppDbContext context, bool forceSeed = false)
         {
-            // Ensure database is created
             context.Database.EnsureCreated();
 
-            // Check if users already exist (unless force seed is enabled)
             if (!forceSeed && context.Users.Any())
             {
                 Console.WriteLine("Users already exist in database. Skipping seed data.");
-                return; // Database has been seeded
+                return; 
             }
 
-            // Clear existing users if force seed is enabled
             if (forceSeed && context.Users.Any())
             {
                 Console.WriteLine("Clearing existing users for force seed...");
@@ -28,7 +25,7 @@ namespace Api.Data
 
             Console.WriteLine("Adding seed users to database...");
 
-            // Add test users with hashed passwords
+
             var users = new User[]
             {
                 new User
@@ -40,7 +37,8 @@ namespace Api.Data
                     FirstName = "Admin",
                     LastName = "User",
                     CreatedAt = DateTime.UtcNow,
-                    ProfileImagePath = "/images/users/user1.jpg"
+                    ProfileImagePath = "/images/users/user1.jpg",
+                    ContactNumber = "+38160111222"
                 },
                 new User
                 {
@@ -51,7 +49,8 @@ namespace Api.Data
                     FirstName = "John",
                     LastName = "Doe",
                     CreatedAt = DateTime.UtcNow,
-                    ProfileImagePath = "/images/users/user1.jpg"
+                    ProfileImagePath = "/images/users/user1.jpg",
+                    ContactNumber = "+38160111333"
                 },
                 new User
                 {
@@ -62,7 +61,8 @@ namespace Api.Data
                     FirstName = "Mark",
                     LastName = "Jackson",
                     CreatedAt = DateTime.UtcNow,
-                    ProfileImagePath = "/images/users/user1.jpg"
+                    ProfileImagePath = "/images/users/user1.jpg",
+                    ContactNumber = "+38160111444"
                 },
                 new User
                 {
@@ -73,7 +73,8 @@ namespace Api.Data
                     FirstName = "Bobby",
                     LastName = "Brown",
                     CreatedAt = DateTime.UtcNow,
-                    ProfileImagePath = "/images/users/user2.jpg"
+                    ProfileImagePath = "/images/users/user2.jpg",
+                    ContactNumber = "+38160111555"
                 },
                 new User
                 {
@@ -84,7 +85,8 @@ namespace Api.Data
                     FirstName = "Sebastian",
                     LastName = "Turlich",
                     CreatedAt = DateTime.UtcNow,
-                    ProfileImagePath = "/images/users/user1.jpg"
+                    ProfileImagePath = "/images/users/user1.jpg",
+                    ContactNumber = "+38160111666"
                 },
             };
 
@@ -93,7 +95,7 @@ namespace Api.Data
             
             Console.WriteLine($"Successfully added {users.Length} users to database.");
 
-            // Clear existing products if force seed is enabled
+
             if (forceSeed && context.Products.Any())
             {
                 Console.WriteLine("Clearing existing products for force seed...");
@@ -101,7 +103,6 @@ namespace Api.Data
                 context.SaveChanges();
             }
 
-            // Seed Products
             if (!context.Products.Any())
             {
                 Console.WriteLine("Adding seed products to database...");

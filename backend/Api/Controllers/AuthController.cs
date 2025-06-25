@@ -36,9 +36,7 @@ namespace Api.Controllers
 
         [HttpPost("forgot-password")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto forgotPasswordDto)
-        {
-            // POTREBNO IMPLEMENTIRATI FUNKCIONALNOST ZA ZABORAVLJENU LOZINKU
-            
+        {        
             return Ok(new { 
                 message = "If an account with this email exists, you will receive a password reset email.",
                 note = "Actually, we don't have a password reset feature yet, but we will soon."

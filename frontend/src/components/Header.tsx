@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './Header.css';
 import { API_BASE_URL } from '../services/api';
 
@@ -11,17 +11,18 @@ interface User {
 interface HeaderProps {
   user: User;
   onLogout: () => void;
-  activeTab: string;
   onTabChange: (tab: string) => void;
+  setIsImageUpdate: (val: boolean) => void;
 }
 
-const Header = ({ user, onLogout, activeTab, onTabChange }: HeaderProps) => {
+
+const Header = ({ user, onLogout, onTabChange, setIsImageUpdate }: HeaderProps) => {
   
   const profileImageSrc = user.profileImagePath 
     ? `${API_BASE_URL}${user.profileImagePath}` 
     : '/images/icons/profile.svg';
 
-  const isAdmin = user.role === 'Admin';
+  const isAdmin = user.role === 'Admin' || user.role === 'admin';
 
   const handleNavClick = (e: React.MouseEvent, tab: string) => {
     e.preventDefault();
@@ -33,6 +34,10 @@ const Header = ({ user, onLogout, activeTab, onTabChange }: HeaderProps) => {
       <div className="profileSection">
         <div 
           className="profileImageContainer"
+          onClick={() => {
+            onTabChange('profile');
+            setIsImageUpdate(true);
+          }}
         >
           <img 
             src={profileImageSrc} 
@@ -56,7 +61,9 @@ const Header = ({ user, onLogout, activeTab, onTabChange }: HeaderProps) => {
           {isAdmin && <div className="headerNavItem" onClick={(e) => handleNavClick(e, 'users')}>Users</div>}
           <div className="headerNavItem" onClick={(e) => handleNavClick(e, 'profile')}>Profile</div>
         </div>
+        
       </nav>
+      
       
     </header>
   );

@@ -125,7 +125,7 @@
     z-index: 1000;
   }
   
-  .modalContent {
+  .modalContentAdmin {
     position: relative;
     width: 50%;
     padding: 103px 80px;
@@ -152,12 +152,17 @@
     width: 100%;
   }
   
+  .formGroup label{
+    line-height: 31px;
+  }
+  
   .addProductForm input,
   .addProductForm .customSelectTrigger,
   .addProductForm .addImageLabel {
     width: 100%;
     padding: 22px 40px;
    
+    line-height: 31px;
     font-size: 20px;
     box-sizing: border-box;
 

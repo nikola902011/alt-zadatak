@@ -9,7 +9,7 @@ const AdminProductPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   
-  // Modal and Form State
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [productToEdit, setProductToEdit] = useState<Product | null>(null);
   const [productName, setProductName] = useState('');
@@ -163,7 +163,7 @@ const AdminProductPage = () => {
 
       {isModalOpen && (
         <div className="modalOverlay" onClick={closeModal}>
-          <div className="modalContent" onClick={(e) => e.stopPropagation()}>
+          <div className="modalContentAdmin" onClick={(e) => e.stopPropagation()}>
             <form className="addProductForm" onSubmit={handleSubmit}>
               <div className="formGroup">
                 <input 

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { getCustomerUsers, getDashboardStats, type UserDto, API_BASE_URL, deleteUsers } from '../services/api';
+import { getCustomerUsers, getDashboardStats, type UserListDto, API_BASE_URL, deleteUsers } from '../services/api';
 import StatCard from './StatCard';
 import './AdminUsersPage.css';
 
 const AdminUsersPage = () => {
-  const [users, setUsers] = useState<UserDto[]>([]);
+  const [users, setUsers] = useState<UserListDto[]>([]);
   const [totalUsers, setTotalUsers] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');

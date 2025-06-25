@@ -14,7 +14,7 @@ const AdminHomePage = ({ onTabChange }: AdminHomePageProps) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  // Modal state
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [productName, setProductName] = useState('');
   const [productPrice, setProductPrice] = useState('');
@@ -111,7 +111,7 @@ const AdminHomePage = ({ onTabChange }: AdminHomePageProps) => {
       </div>
       {isModalOpen && (
         <div className="modalOverlay" onClick={closeModal}>
-          <div className="modalContent" onClick={e => e.stopPropagation()}>
+          <div className="modalContentAdmin" onClick={e => e.stopPropagation()}>
             <form className="addProductForm" onSubmit={handleSubmit}>
               <div className="formGroup">
                 <input 

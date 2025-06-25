@@ -16,18 +16,18 @@ namespace Api.Services
             _context = context;
         }
 
-        public async Task<List<UserDto>> GetAllCustomersAsync()
+        public async Task<List<UserListDto>> GetAllCustomersAsync()
         {
             return await _context.Users
                 .Where(u => u.Role == "Customer")
-                .Select(u => new UserDto
+                .Select(u => new UserListDto
                 {
                     Id = u.Id,
                     FirstName = u.FirstName,
                     LastName = u.LastName,
                     Email = u.Email,
-                    CreatedAt = u.CreatedAt,
-                    ProfileImagePath = u.ProfileImagePath
+                    ProfileImagePath = u.ProfileImagePath,
+                    CreatedAt = u.CreatedAt
                 })
                 .ToListAsync();
         }
@@ -40,6 +40,46 @@ namespace Api.Services
 
             _context.Users.RemoveRange(usersToDelete);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<UserDto?> GetUserByEmailAsync(string email)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            if (user == null) return null;
+            return new UserDto
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Username = user.Username,
+                ProfileImagePath = user.ProfileImagePath,
+                ContactNumber = user.ContactNumber
+            };
+        }
+
+        public async Task<UserDto?> UpdateUserByEmailAsync(string email, UserDto dto)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            if (user == null) return null;
+            user.FirstName = dto.FirstName;
+            user.LastName = dto.LastName;
+            user.Email = dto.Email;
+            user.ContactNumber = dto.ContactNumber;
+            if (!string.IsNullOrEmpty(dto.ProfileImagePath))
+                user.ProfileImagePath = dto.ProfileImagePath;
+            
+            await _context.SaveChangesAsync();
+            return new UserDto
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Username = user.Username,
+                ProfileImagePath = user.ProfileImagePath,
+                ContactNumber = user.ContactNumber
+            };
         }
     }
 } 

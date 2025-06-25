@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Scaffolding;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Api.Models
 {
@@ -26,5 +25,7 @@ namespace Api.Models
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public string? ProfileImagePath { get; set; }
+
+        public string? ContactNumber { get; set; }
     }
 }

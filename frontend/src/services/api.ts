@@ -12,11 +12,6 @@ export interface User {
   profileImagePath?: string;
 }
 
-export interface LoginRequest {
-  email: string;
-  password: string;
-}
-
 export interface LoginResponse {
   token: string;
   email: string;
@@ -29,15 +24,6 @@ export interface DashboardStats {
   activeUsers: number;
 }
 
-export interface ApiError {
-  message: string;
-  status?: number;
-}
-
-export interface ForgotPasswordRequest {
-  email: string;
-}
-
 export interface ForgotPasswordResponse {
   message: string;
   note: string;
@@ -48,8 +34,18 @@ export interface UserDto {
   firstName: string;
   lastName: string;
   email: string;
-  createdAt: string;
+  username?: string;
   profileImagePath?: string;
+  contactNumber?: string;
+}
+
+export interface UserListDto {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  profileImagePath?: string;
+  createdAt: string;
 }
 
 async function login(email: string, password: string): Promise<LoginResponse> {
@@ -74,36 +70,12 @@ async function login(email: string, password: string): Promise<LoginResponse> {
   }
 }
 
-async function getCurrentUser(): Promise<User | null> {
-  try {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      return null;
-    }
-
-    const response = await fetch(`${API_URL}/auth/me`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
-
-    if (!response.ok) {
-      return null;
-    }
-
-    const user = await response.json();
-    return user;
-  } catch (error) {
-    console.error('Get user error:', error);
-    return null;
-  }
-}
-
 function logout() {
   localStorage.removeItem('token');
   localStorage.removeItem('role');
   localStorage.removeItem('profileImagePath');
   localStorage.removeItem('user');
+  localStorage.removeItem('activeTab');
 }
 
 async function forgotPassword(email: string): Promise<ForgotPasswordResponse> {
@@ -240,7 +212,26 @@ async function uploadImage(file: File): Promise<string> {
   return data.imagePath;
 }
 
-async function getCustomerUsers(): Promise<UserDto[]> {
+async function uploadUserImage(file: File): Promise<string> {
+  const token = localStorage.getItem('token');
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const response = await fetch(`${API_URL}/upload/user`, {
+    method: 'POST',
+    headers: {
+      ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+    },
+    body: formData
+  });
+  if (!response.ok) {
+    throw new Error('Failed to upload image');
+  }
+  const data = await response.json();
+  return data.imagePath;
+}
+
+async function getCustomerUsers(): Promise<UserListDto[]> {
   const token = localStorage.getItem('token');
   if (!token) {
     throw new Error('No token found');
@@ -280,6 +271,34 @@ async function deleteUsers(userIds: number[]): Promise<void> {
   }
 }
 
+async function fetchCurrentUserProfile(): Promise<UserDto | null> {
+  const token = localStorage.getItem('token');
+  if (!token) return null;
+  const response = await fetch(`${API_URL}/users/me`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  });
+  if (!response.ok) return null;
+  return await response.json();
+}
+async function updateCurrentUserProfile(data: UserDto): Promise<UserDto | null> {
+  const token = localStorage.getItem('token');
+  if (!token) return null;
+  const response = await fetch(`${API_URL}/users/me`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify(data)
+  });
+  if (!response.ok) return null;
+  return await response.json();
+}
+
 export type { Product };
-export { login, getCurrentUser, logout, forgotPassword, getProducts, getDashboardStats, addProduct, updateProduct, deleteProduct, uploadImage, getCustomerUsers, deleteUsers };
+export { login, logout, forgotPassword, getProducts, getDashboardStats, addProduct, updateProduct, deleteProduct, uploadImage, uploadUserImage, getCustomerUsers, deleteUsers, fetchCurrentUserProfile, updateCurrentUserProfile};
+
+
 

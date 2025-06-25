@@ -1,43 +1,42 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Header from './Header';
 import ProductList from './ProductList';
 import AdminHomePage from './AdminHomePage';
 import AdminProductPage from './AdminProductPage';
 import AdminUsersPage from './AdminUsersPage';
 import AdminAnalyticsPage from './AdminAnalyticsPage';
+import EditProfilePage from './EditProfilePage';
 import './Dashboard.css';
 
 interface User {
   email: string;
   token: string;
   role: string;
+  firstName: string;
+  lastName: string;
   profileImagePath?: string;
 }
 
 interface DashboardProps {
   user: User;
   onLogout: () => void;
+  onUserUpdate: (updatedUser: User) => void;
 }
 
-const Dashboard = ({ user, onLogout }: DashboardProps) => {
+const Dashboard = ({ user, onLogout, onUserUpdate }: DashboardProps) => {
   const [activeTab, setActiveTab] = useState(() => {
-    // Učitaj sačuvanu stranicu iz localStorage ili koristi 'home' kao default
     return localStorage.getItem('activeTab') || 'home';
   });
-  const [openAddProductModal, setOpenAddProductModal] = useState(false);
+  const [isImageUpdate, setIsImageUpdate] = useState(false);
   
   const isAdmin = user.role === 'Admin';
 
-  // Sačuvaj trenutnu stranicu u localStorage kada se promeni
   useEffect(() => {
     localStorage.setItem('activeTab', activeTab);
   }, [activeTab]);
 
   const handleTabChange = (tab: string, options?: { openAddModal?: boolean }) => {
     setActiveTab(tab);
-    if (tab === 'products' && options?.openAddModal) {
-      setOpenAddProductModal(true);
-    }
   };
 
   const renderContent = () => {
@@ -53,7 +52,7 @@ const Dashboard = ({ user, onLogout }: DashboardProps) => {
         case 'analytics':
           return <AdminAnalyticsPage />;
         case 'profile':
-          return <div>Admin Profile Page - Coming Soon!</div>;
+          return <EditProfilePage user={user} isImageUpdate={isImageUpdate} setIsImageUpdate={setIsImageUpdate} onUserUpdate={onUserUpdate} />;
         default:
           return <AdminHomePage onTabChange={handleTabChange} />;
       }
@@ -65,7 +64,7 @@ const Dashboard = ({ user, onLogout }: DashboardProps) => {
       case 'products':
         return <ProductList />;
       case 'profile':
-        return <div>Customer Profile Page - Coming Soon!</div>;
+        return <EditProfilePage user={user} isImageUpdate={isImageUpdate} setIsImageUpdate={setIsImageUpdate} onUserUpdate={onUserUpdate} />;
       default:
         return <ProductList />;
     }
@@ -76,8 +75,8 @@ const Dashboard = ({ user, onLogout }: DashboardProps) => {
       <Header 
         user={user} 
         onLogout={onLogout}
-        activeTab={activeTab}
         onTabChange={handleTabChange}
+        setIsImageUpdate={setIsImageUpdate}
       />
       
       <main className="dashboardContent">

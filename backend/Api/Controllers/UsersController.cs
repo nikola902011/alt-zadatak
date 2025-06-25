@@ -20,7 +20,7 @@ namespace Api.Controllers
         }
 
         [HttpGet("customers")]
-        public async Task<ActionResult<List<UserDto>>> GetCustomers()
+        public async Task<ActionResult<List<UserListDto>>> GetCustomers()
         {
             var customers = await _userService.GetAllCustomersAsync();
             return Ok(customers);
@@ -36,6 +36,32 @@ namespace Api.Controllers
 
             await _userService.BulkDeleteUsersAsync(request.UserIds);
             return NoContent();
+        }
+
+        [HttpGet("me")]
+        [Authorize]
+        public async Task<ActionResult<UserDto>> GetMe()
+        {
+            var email = User?.Identity?.Name;
+            if (string.IsNullOrEmpty(email))
+                return Unauthorized();
+            var user = await _userService.GetUserByEmailAsync(email);
+            if (user == null)
+                return NotFound();
+            return Ok(user);
+        }
+
+        [HttpPut("me")]
+        [Authorize]
+        public async Task<ActionResult<UserDto>> UpdateMe([FromBody] UserDto dto)
+        {
+            var email = User?.Identity?.Name;
+            if (string.IsNullOrEmpty(email))
+                return Unauthorized();
+            var updated = await _userService.UpdateUserByEmailAsync(email, dto);
+            if (updated == null)
+                return NotFound();
+            return Ok(updated);
         }
 
         public class BulkDeleteRequest
