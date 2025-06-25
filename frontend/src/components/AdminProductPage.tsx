@@ -18,6 +18,7 @@ const AdminProductPage = () => {
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [productImagePath, setProductImagePath] = useState('');
+  const [validationError, setValidationError] = useState('');
 
   const categories = ['Tablets', 'Smartphones', 'Laptops', 'Cameras', 'Gaming', 'Audio', 'Wearables', 'Accessories'];
 
@@ -46,6 +47,7 @@ const AdminProductPage = () => {
     setProductPrice('');
     setProductCategory('');
     setProductImagePath('');
+    setValidationError('');
   };
   
   useEffect(() => {
@@ -70,6 +72,7 @@ const AdminProductPage = () => {
     setProductPrice(product.price.toString());
     setProductCategory(product.category);
     setProductImagePath(product.imagePath || '');
+    setValidationError('');
     setIsModalOpen(true);
   };
 
@@ -88,11 +91,13 @@ const AdminProductPage = () => {
     setProductPrice('');
     setProductCategory('');
     setProductImagePath('');
+    setValidationError('');
     setIsModalOpen(true);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setValidationError('');
     setIsSubmitting(true);
     try {
       if (productToEdit) {
@@ -114,7 +119,12 @@ const AdminProductPage = () => {
       await fetchProductsAndStats();
       closeModal();
     } catch (err) {
-      alert('Failed to save product.');
+      const errorMessage = err instanceof Error ? err.message : 'Failed to save product.';
+      if (errorMessage.includes('Validation error:')) {
+        setValidationError(errorMessage);
+      } else {
+        alert('Failed to save product.');
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -234,6 +244,11 @@ const AdminProductPage = () => {
               <button type="submit" className="actionButton editButton saveModalButton" disabled={isSubmitting} style={{marginTop: '1rem'}}>
                 {isSubmitting ? 'Saving...' : (productToEdit ? 'Save Changes' : 'Add Product')}
               </button>
+              {validationError && (
+                <div className="validationError">
+                  {validationError}
+                </div>
+              )}
             </form>
           </div>
         </div>

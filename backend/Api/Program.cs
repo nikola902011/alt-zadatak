@@ -58,7 +58,7 @@ using (var scope = app.Services.CreateScope())
     try
     {
         logger.LogInformation("Initializing database...");
-        DbInitializer.Initialize(context, forceSeed: true);
+        DbInitializer.Initialize(context, forceSeed: false);
         logger.LogInformation("Database initialized successfully!");
     }
     catch (Exception ex)

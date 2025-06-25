@@ -99,24 +99,49 @@ const EditProfilePage = ({ user, isImageUpdate, setIsImageUpdate, onUserUpdate }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
     setSaving(true);
     setMessage(null);
-    const dto: UserDto = {
-      id: 0, 
-      firstName: form.firstName,
-      lastName: form.lastName,
-      email: form.email,
-      username: form.username,
-      profileImagePath: undefined,
-      contactNumber: form.contact
-    };
-    const result = await updateCurrentUserProfile(dto);
-    if (result) {
-      setMessage('Profile updated successfully!');
-    } else {
-      setMessage('Failed to update profile.');
+    
+    try {
+      const dto: UserDto = {
+        id: 0, 
+        firstName: form.firstName.trim(),
+        lastName: form.lastName.trim(),
+        email: form.email.trim(),
+        username: form.username?.trim(),
+        profileImagePath: undefined,
+        contactNumber: form.contact?.trim(),
+        password: form.password?.trim() || undefined
+      };
+      
+      console.log('Submitting user data:', dto);
+      const result = await updateCurrentUserProfile(dto);
+      
+      if (result) {
+        setMessage('Profile updated successfully!');
+        // Ažuriraj lokalno stanje korisnika
+        const updatedUserWithRole = {
+          ...result,
+          role: user.role, 
+          token: user.token 
+        };
+        onUserUpdate(updatedUserWithRole);
+      } else {
+        setMessage('Failed to update profile. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      const errorMessage = error instanceof Error ? error.message : 'An error occurred while updating your profile. Please try again.';
+      
+      if (errorMessage.includes('Validation error:')) {
+        setMessage(errorMessage);
+      } else {
+        setMessage('An error occurred while updating your profile. Please try again.');
+      }
+    } finally {
+      setSaving(false);
     }
-    setSaving(false);
   };
 
   const handleLogout = () => {
@@ -135,26 +160,43 @@ const EditProfilePage = ({ user, isImageUpdate, setIsImageUpdate, onUserUpdate }
   const handleUpload = async () => {
     if (!selectedFile) return;
     setUploading(true);
+    setMessage(null);
+    
     try {
+      console.log('Uploading user image...');
       const imagePath = await uploadUserImage(selectedFile);
+      console.log('Image uploaded successfully:', imagePath);
+      
       const userProfile = await fetchCurrentUserProfile();
       if (userProfile) {
-        await updateCurrentUserProfile({ ...userProfile, profileImagePath: imagePath });
-        const updatedUserProfile = await fetchCurrentUserProfile();
-        if (updatedUserProfile) {
+        console.log('Updating user profile with new image path...');
+        const result = await updateCurrentUserProfile({ 
+          ...userProfile, 
+          profileImagePath: imagePath 
+        });
+        
+        if (result) {
+          console.log('Profile updated with new image');
           const updatedUserWithRole = {
-            ...updatedUserProfile,
+            ...result,
             role: user.role, 
             token: user.token 
           };
           onUserUpdate(updatedUserWithRole);
+          setMessage('Profile image updated successfully!');
+          setIsImageUpdate(false);
+        } else {
+          setMessage('Failed to update profile with new image.');
         }
-        setIsImageUpdate(false);
+      } else {
+        setMessage('Failed to fetch current profile data.');
       }
     } catch (err) {
-      setMessage('Failed to upload image.');
+      console.error('Error uploading image:', err);
+      setMessage('Failed to upload image. Please try again.');
+    } finally {
+      setUploading(false);
     }
-    setUploading(false);
   };
 
   const openCamera = async () => {
@@ -278,7 +320,7 @@ const EditProfilePage = ({ user, isImageUpdate, setIsImageUpdate, onUserUpdate }
                 <button type="button" className="editProfileCancelBtn" onClick={handleCancel} disabled={saving}>Cancel</button>
                 <button type="submit" className="editProfileSaveBtn" disabled={saving}>{saving ? 'Saving...' : 'Save'}</button>
             </div>
-            {message && <div style={{textAlign:'center',marginTop:16, color: message.includes('success') ? 'green' : 'red'}}>{message}</div>}
+            {message && <div className={message.includes('success') ? 'successMessage' : 'validationError'}>{message}</div>}
             </form>
         </div>
         )}

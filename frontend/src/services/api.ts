@@ -37,6 +37,7 @@ export interface UserDto {
   username?: string;
   profileImagePath?: string;
   contactNumber?: string;
+  password?: string;
 }
 
 export interface UserListDto {
@@ -49,25 +50,33 @@ export interface UserListDto {
 }
 
 async function login(email: string, password: string): Promise<LoginResponse> {
-  try {
-    const response = await fetch(`${API_URL}/auth/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ email, password })
-    });
+  const response = await fetch(`${API_URL}/auth/login`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ email, password })
+  });
 
-    if (!response.ok) {
-      throw new Error('Login failed');
+  if (!response.ok) {
+    if (response.status === 400) {
+      const errorData = await response.json();
+      if (errorData.errors) {
+        const validationErrors = Object.values(errorData.errors).flat().join(', ');
+        throw new Error(`Validation error: ${validationErrors}`);
+      } else if (errorData.title) {
+        throw new Error(`Validation error: ${errorData.title}`);
+      } else {
+        throw new Error('Validation error: Invalid data provided');
+      }
+    } else if (response.status === 401) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Invalid email or password');
     }
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Login error:', error);
-    throw error;
+    throw new Error('Login failed');
   }
+
+  return response.json();
 }
 
 function logout() {
@@ -154,6 +163,17 @@ async function addProduct(product: { name: string; price: number; category: stri
     body: JSON.stringify(product)
   });
   if (!response.ok) {
+    if (response.status === 400) {
+      const errorData = await response.json();
+      if (errorData.errors) {
+        const validationErrors = Object.values(errorData.errors).flat().join(', ');
+        throw new Error(`Validation error: ${validationErrors}`);
+      } else if (errorData.title) {
+        throw new Error(`Validation error: ${errorData.title}`);
+      } else {
+        throw new Error('Validation error: Invalid data provided');
+      }
+    }
     throw new Error('Failed to add product');
   }
   return response.json();
@@ -171,6 +191,17 @@ async function updateProduct(id: number, product: { id: number; name: string; pr
     body: JSON.stringify(product)
   });
   if (!response.ok) {
+    if (response.status === 400) {
+      const errorData = await response.json();
+      if (errorData.errors) {
+        const validationErrors = Object.values(errorData.errors).flat().join(', ');
+        throw new Error(`Validation error: ${validationErrors}`);
+      } else if (errorData.title) {
+        throw new Error(`Validation error: ${errorData.title}`);
+      } else {
+        throw new Error('Validation error: Invalid data provided');
+      }
+    }
     throw new Error('Failed to update product');
   }
   if (response.status === 204) {
@@ -282,6 +313,7 @@ async function fetchCurrentUserProfile(): Promise<UserDto | null> {
   if (!response.ok) return null;
   return await response.json();
 }
+
 async function updateCurrentUserProfile(data: UserDto): Promise<UserDto | null> {
   const token = localStorage.getItem('token');
   if (!token) return null;
@@ -293,7 +325,21 @@ async function updateCurrentUserProfile(data: UserDto): Promise<UserDto | null> 
     },
     body: JSON.stringify(data)
   });
-  if (!response.ok) return null;
+  if (!response.ok) {
+    if (response.status === 400) {
+      const errorData = await response.json();
+      // Pokušaj da izvučeš validacione greške iz ModelState
+      if (errorData.errors) {
+        const validationErrors = Object.values(errorData.errors).flat().join(', ');
+        throw new Error(`Validation error: ${validationErrors}`);
+      } else if (errorData.title) {
+        throw new Error(`Validation error: ${errorData.title}`);
+      } else {
+        throw new Error('Validation error: Invalid data provided');
+      }
+    }
+    return null;
+  }
   return await response.json();
 }
 

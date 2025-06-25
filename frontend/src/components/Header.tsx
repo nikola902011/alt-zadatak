@@ -16,7 +16,7 @@ interface HeaderProps {
 }
 
 
-const Header = ({ user, onLogout, onTabChange, setIsImageUpdate }: HeaderProps) => {
+const Header = ({ user, onTabChange, setIsImageUpdate }: HeaderProps) => {
   
   const profileImageSrc = user.profileImagePath 
     ? `${API_BASE_URL}${user.profileImagePath}` 

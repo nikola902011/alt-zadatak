@@ -32,7 +32,12 @@ const Login = ({ onLogin }: LoginProps) => {
         lastName: ''
       });
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Login failed');
+      const errorMessage = err instanceof Error ? err.message : 'Login failed';
+      if (errorMessage.includes('Validation error:')) {
+        setError(errorMessage);
+      } else {
+        setError(errorMessage);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -64,12 +69,11 @@ const Login = ({ onLogin }: LoginProps) => {
               <img src="/images/icons/profile.svg" alt="Email" width={24} height={24} />
             </div>
             <input
-              type="email"
+              type="text"
               className="formInput"
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              required
               disabled={isLoading}
             />
           </div>
@@ -83,7 +87,6 @@ const Login = ({ onLogin }: LoginProps) => {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              required
               disabled={isLoading}
             />
           </div>
@@ -94,7 +97,7 @@ const Login = ({ onLogin }: LoginProps) => {
         <div className="loginForgot">
           <span onClick={() => setShowForgotPassword(true)}>Forgot password?</span>
         </div>
-        {error && <div className="errorMessage">{error}</div>}
+        {error && <div className={error.includes('Validation error:') ? 'validationError' : 'errorMessage'}>{error}</div>}
       </div>
 
       {/* Forgot Password Modal */}

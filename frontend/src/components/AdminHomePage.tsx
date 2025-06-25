@@ -14,7 +14,6 @@ const AdminHomePage = ({ onTabChange }: AdminHomePageProps) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [productName, setProductName] = useState('');
   const [productPrice, setProductPrice] = useState('');
@@ -22,6 +21,7 @@ const AdminHomePage = ({ onTabChange }: AdminHomePageProps) => {
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [productImagePath, setProductImagePath] = useState('');
+  const [validationError, setValidationError] = useState('');
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -42,6 +42,7 @@ const AdminHomePage = ({ onTabChange }: AdminHomePageProps) => {
     setProductPrice('');
     setProductCategory('');
     setProductImagePath('');
+    setValidationError('');
     setIsModalOpen(true);
   };
 
@@ -51,10 +52,12 @@ const AdminHomePage = ({ onTabChange }: AdminHomePageProps) => {
     setProductPrice('');
     setProductCategory('');
     setProductImagePath('');
+    setValidationError('');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setValidationError('');
     setIsSubmitting(true);
     try {
       await addProduct({
@@ -66,7 +69,12 @@ const AdminHomePage = ({ onTabChange }: AdminHomePageProps) => {
       setStats(prev => ({ ...prev, totalProducts: prev.totalProducts + 1 }));
       closeModal();
     } catch (err) {
-      alert('Failed to save product.');
+      const errorMessage = err instanceof Error ? err.message : 'Failed to save product.';
+      if (errorMessage.includes('Validation error:')) {
+        setValidationError(errorMessage);
+      } else {
+        alert('Failed to save product.');
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -182,6 +190,11 @@ const AdminHomePage = ({ onTabChange }: AdminHomePageProps) => {
               <button type="submit" className="actionButton editButton saveModalButton" disabled={isSubmitting} style={{marginTop: '1rem'}}>
                 {isSubmitting ? 'Saving...' : 'Add Product'}
               </button>
+              {validationError && (
+                <div className="validationError">
+                  {validationError}
+                </div>
+              )}
             </form>
           </div>
         </div>

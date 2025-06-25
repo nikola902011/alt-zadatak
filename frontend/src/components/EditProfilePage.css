@@ -380,4 +380,26 @@
 .cameraButtons .actionButton:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.validationError {
+  color: #ef4444;
+  font-size: 14px;
+  margin-top: 16px;
+  text-align: center;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
+.successMessage {
+  color: #10b981;
+  font-size: 14px;
+  margin-top: 16px;
+  text-align: center;
+  background-color: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  padding: 8px 12px;
 } 

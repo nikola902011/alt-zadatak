@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers
 {
-    [Authorize(Roles = "Admin")]
     [ApiController]
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
@@ -20,6 +19,7 @@ namespace Api.Controllers
         }
 
         [HttpGet("customers")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<UserListDto>>> GetCustomers()
         {
             var customers = await _userService.GetAllCustomersAsync();

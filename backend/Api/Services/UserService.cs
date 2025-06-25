@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Api.Data;
 using Api.DTOs;
+using Api.Helpers;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Services
@@ -62,10 +63,17 @@ namespace Api.Services
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
             if (user == null) return null;
+            
             user.FirstName = dto.FirstName;
             user.LastName = dto.LastName;
             user.Email = dto.Email;
             user.ContactNumber = dto.ContactNumber;
+            
+            if (!string.IsNullOrEmpty(dto.Password))
+            {
+                user.PasswordHash = PasswordHelper.HashPassword(dto.Password);
+            }
+            
             if (!string.IsNullOrEmpty(dto.ProfileImagePath))
                 user.ProfileImagePath = dto.ProfileImagePath;
             
