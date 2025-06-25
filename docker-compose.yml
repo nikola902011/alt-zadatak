@@ -1,4 +1,5 @@
 services:
+  # Database
   db:
     image: mcr.microsoft.com/mssql/server:2019-latest
     container_name: sqlserver
@@ -8,31 +9,40 @@ services:
     ports:
       - "1433:1433"
     restart: always
+    volumes:
+      - sqlserver_data:/var/opt/mssql
 
+  # Backend API
   backend:
-    build: 
+    build:
       context: ./backend/Api
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
+    container_name: backend-api
     ports:
       - "5000:8080"
-    depends_on:
-      - db
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=db;Database=TestAppDb;User Id=sa;Password=My_password123;TrustServerCertificate=true;
+    depends_on:
+      - db
     volumes:
-      - ./backend/Api:/app
-    restart: unless-stopped
+      - ./backend/Api/wwwroot:/app/wwwroot
+    restart: always
 
+  # Frontend
   frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
+    container_name: frontend-app
     ports:
-      - "3000:3000"
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
+      - "3000:80"
     depends_on:
       - backend
-    restart: unless-stopped
+    restart: always
+
+volumes:
+  sqlserver_data:
+
+  
   

@@ -1,22 +1,21 @@
-import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import './AnalyticsCharts.css';
 
-interface CategoryDatum {
+interface CategoryData {
   name: string;
   value: number;
-  percent: string | number;
+  percent: string;
   color: string;
 }
 
-interface PriceDatum {
+interface PriceData {
   name: string;
   value: number;
 }
 
 interface AnalyticsChartsProps {
-  categoryData: CategoryDatum[];
-  priceData: PriceDatum[];
+  categoryData: CategoryData[];
+  priceData: PriceData[];
 }
 
 const AnalyticsCharts = ({ categoryData, priceData }: AnalyticsChartsProps) => {
@@ -25,7 +24,7 @@ const AnalyticsCharts = ({ categoryData, priceData }: AnalyticsChartsProps) => {
       <div className="categoryPerformanceCard">
         <div className="categoryPerformanceTitle">Top Categories Perfomance</div>
         <div className="categoryList">
-          {categoryData.map((cat, idx) => (
+          {categoryData.map((cat) => (
             <div key={cat.name} className="categoryItem">
               <span>
                 <span className="categoryColorIndicator" style={{ background: cat.color }}></span>

@@ -10,7 +10,6 @@ interface User {
 
 interface HeaderProps {
   user: User;
-  onLogout: () => void;
   onTabChange: (tab: string) => void;
   setIsImageUpdate: (val: boolean) => void;
 }

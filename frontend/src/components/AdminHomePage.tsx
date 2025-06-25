@@ -4,7 +4,7 @@ import { getDashboardStats, addProduct, uploadImage } from '../services/api';
 import './AdminHomePage.css';
 
 interface AdminHomePageProps {
-  onTabChange: (tab: string, options?: any) => void;
+  onTabChange: (tab: string) => void;
 }
 
 const categories = ['Tablets', 'Smartphones', 'Laptops', 'Cameras', 'Gaming', 'Audio', 'Wearables', 'Accessories'];

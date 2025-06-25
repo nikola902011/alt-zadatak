@@ -1,5 +1,7 @@
-const API_BASE_URL = 'http://localhost:5189'; // Osnovni URL bez /api
-const API_URL = `${API_BASE_URL}/api`; // URL za API pozive
+const API_BASE_URL = import.meta.env.PROD 
+  ? '/api'  // Relativni URL za Docker
+  : 'http://localhost:5000';  // Lokalni development
+const API_URL = API_BASE_URL; // URL za API pozive
 
 export { API_BASE_URL }; // Exportujemo osnovni URL
 

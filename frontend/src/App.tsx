@@ -40,14 +40,6 @@ function App() {
     setUser({ ...userData, firstName: '', lastName: '' })
   }
 
-  const handleLogout = () => {
-    localStorage.removeItem('token')
-    localStorage.removeItem('role')
-    localStorage.removeItem('profileImagePath');
-    localStorage.removeItem('activeTab');
-    setUser(null)
-  }
-
   const handleUserUpdate = (updatedUser: User) => {
     setUser(updatedUser);
   };
@@ -55,7 +47,7 @@ function App() {
   return (
     <div className="App">
       {user ? (
-        <Dashboard user={user} onLogout={handleLogout} onUserUpdate={handleUserUpdate}/>
+        <Dashboard user={user} onUserUpdate={handleUserUpdate}/>
       ) : (
         <Login onLogin={handleLogin} />
       )}

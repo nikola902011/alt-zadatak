@@ -19,11 +19,10 @@ interface User {
 
 interface DashboardProps {
   user: User;
-  onLogout: () => void;
   onUserUpdate: (updatedUser: User) => void;
 }
 
-const Dashboard = ({ user, onLogout, onUserUpdate }: DashboardProps) => {
+const Dashboard = ({ user, onUserUpdate }: DashboardProps) => {
   const [activeTab, setActiveTab] = useState(() => {
     return localStorage.getItem('activeTab') || 'home';
   });
@@ -35,7 +34,7 @@ const Dashboard = ({ user, onLogout, onUserUpdate }: DashboardProps) => {
     localStorage.setItem('activeTab', activeTab);
   }, [activeTab]);
 
-  const handleTabChange = (tab: string, options?: { openAddModal?: boolean }) => {
+  const handleTabChange = (tab: string) => {
     setActiveTab(tab);
   };
 
@@ -74,7 +73,6 @@ const Dashboard = ({ user, onLogout, onUserUpdate }: DashboardProps) => {
     <div className="dashboardContainer">
       <Header 
         user={user} 
-        onLogout={onLogout}
         onTabChange={handleTabChange}
         setIsImageUpdate={setIsImageUpdate}
       />

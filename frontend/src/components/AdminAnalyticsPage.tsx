@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import StatCard from './StatCard';
 import AnalyticsCharts from './AnalyticsCharts';
 import { getProducts, getCustomerUsers, type Product, type UserDto } from '../services/api';
@@ -51,7 +51,7 @@ const AdminAnalyticsPage = () => {
   const categoryData = Object.entries(categoryMap).map(([name, value]) => ({
     name,
     value,
-    percent: totalProducts ? ((value / totalProducts) * 100).toFixed(1) : 0,
+    percent: totalProducts ? ((value / totalProducts) * 100).toFixed(1) : '0',
     color: CATEGORY_COLORS[name] || '#888',
   }));
 
